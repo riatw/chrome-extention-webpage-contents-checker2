@@ -2,7 +2,7 @@
 	"manifest_version": 2,
 	"name": "WebPage Contents Checker 2",
 	"description": "Webページ上のコンテンツをチェックする拡張機能です。(It is an extension to check the contents on a Web page.)",
-	"version": "2.0.1",
+	"version": "2.0.2",
 	"icons": {
 		"128": "images/icon/icon_128.png"
 	},
