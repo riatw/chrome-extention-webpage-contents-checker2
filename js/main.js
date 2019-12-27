@@ -139,6 +139,12 @@ $(document).ready(function(){
 				},
 				case10: {
 					active: true,
+				},
+				case11: {
+					active: true,
+				},
+				case12: {
+					active: true,
 				}
 			}
 		},
@@ -173,34 +179,60 @@ $(document).ready(function(){
 											var tmp = [];
 
 											// URLをセット
-											headerBuff.push("URL");
+											headerBuff.push("チェック対象URL");
 											tmp.push(url);
 
 											// TDKをセット
 											var title;
-											title = $(html).filter("title").text();
+											title = $(html).filter("meta title").text();
 											headerBuff.push("title");
 											tmp.push(title);
 
-											var keywords;
-											keywords = $(html).filter("meta[name='keywords']").attr("content");
-											headerBuff.push("keywords");
-											tmp.push(keywords);
-
 											var description;
 											description = $(html).filter("meta[name='description']").attr("content");
-											headerBuff.push("description");
+											headerBuff.push("meta description");
 											tmp.push(description);
+
+											var keywords;
+											keywords = $(html).filter("meta[name='keywords']").attr("content");
+											headerBuff.push("meta keywords");
+											tmp.push(keywords);
+
+											// OGをセット
+											var og_title;
+											og_title = $(html).filter("meta[property='og:title']").attr("content");
+											headerBuff.push("og:title");
+											tmp.push(og_title);
+
+											var og_site_name;
+											og_site_name = $(html).filter("meta[property='og:site_name']").attr("content");
+											headerBuff.push("og:site_name");
+											tmp.push(og_site_name);
+
+											var og_url;
+											og_url = $(html).filter("meta[property='og:url']").attr("content");
+											headerBuff.push("og:url");
+											tmp.push(og_url);
+
+											var og_description;
+											og_description = $(html).filter("meta[property='og:description']").attr("content");
+											headerBuff.push("og:description");
+											tmp.push(og_description);
+
+											var og_image;
+											og_image = $(html).filter("meta[property='og:image']").attr("content");
+											headerBuff.push("og:image");
+											tmp.push(og_image);
 
 											// case1: NGドメインが含まれていないか？
 											if ( $app.testcase.case1.active ) {
 												headerBuff.push("NGドメインが含まれていないか？");
 
 												if ( html.indexOf(ngurl) == -1 ) {
-													tmp.push("OK");
+													tmp.push("○");
 												}
 												else {
-													tmp.push("NG");
+													tmp.push("✕");
 												}
 											}
 
@@ -219,7 +251,7 @@ $(document).ready(function(){
 												}
 
 												if( ! html.match(c_regP) ){
-													tmp.push("OK");
+													tmp.push("○");
 												}
 												else {
 													tmp.push("NG: 以下の文字が含まれています:" + html.match(c_regP).join(","));
@@ -239,10 +271,10 @@ $(document).ready(function(){
 													headerBuff.push("リダイレクトが正しくされているか");
 
 													if ( response.url == redirectUrl ) {
-														tmp.push("OK");
+														tmp.push("○");
 													}
 													else {
-														tmp.push("NG");
+														tmp.push("✕");
 													}
 												}
 											}
@@ -252,7 +284,7 @@ $(document).ready(function(){
 												headerBuff.push("MixedContentが含まれていないか？");
 
 												if ( $(html).find("[href^='http'],[src^='http']").not("a").not("[href^='" + origin + "'],[src^='" + origin + "']").length == 0 ) {
-													tmp.push("OK");
+													tmp.push("○");
 												}
 												else {
 													tmp.push( $(html).find("link[href^='http'],[src^='http']").not("a").not("[href^='" + origin + "'],[src^='" + origin + "']").prop("outerHTML") );
@@ -291,11 +323,58 @@ $(document).ready(function(){
 											if ( $app.testcase.case9.active ) {
 												headerBuff.push("Google Analyticsがインストールされているか？");
 
-												if ( html.indexOf("GA-") != -1 || html.indexOf("GTM-") != -1 || html.indexOf("analytics.js") != -1 ) {
-													tmp.push("OK");
+												if ( html.indexOf("UA-") != -1 && ( html.indexOf("ga(") != -1 || html.indexOf("gtag") != -1 ) ) {
+													tmp.push("○");
+												}
+												else if ( html.indexOf("analytics.js") != -1 ) {
+													tmp.push("○");
 												}
 												else {
-													tmp.push("NG");
+													tmp.push("✕");
+												}
+											}
+
+											//case10: Google TagManagerがインストールされているか？
+											if ( $app.testcase.case10.active ) {
+												headerBuff.push("Google TagManagerがインストールされているか？");
+
+												if ( html.indexOf("GTM-") != -1 && html.indexOf("https://www.googletagmanager.com") != -1 ) {
+													tmp.push("○");
+												}
+												else {
+													tmp.push("✕");
+												}
+											}
+
+											//case11: 外部リンクはすべて_blank指定があるか
+											if ( $app.testcase.case11.active ) {
+												var origin = $("<a>").attr("href",url).get(0).origin;
+												console.log($(html).find("a[href^='htt']").not("[target='_blank']").not("[href^='" + origin + "']"));
+
+												headerBuff.push("外部リンクはすべて_blank指定があるか");
+
+												if ( $(html).find("a[href^='htt']").not("[target='_blank']").not("[href^='" + origin + "']").length == 0 ) {
+													tmp.push("○");
+												}
+												else {
+													// TODO: 戻り値が複数項目の場合に対応したい
+													tmp.push("✕\n" + "リンクラベル" + $(html).find("a[href^='htt']").not("[target='_blank']").not("[href^='" + origin + "']").text() );
+												}
+											}
+
+											//case11: 内部リンクは「ルートパス」で入力されているか
+											if ( $app.testcase.case12.active ) {
+												var origin = $("<a>").attr("href",url).get(0).origin;
+												console.log($(html).find("a[href^='htt']").not("[target='_blank']").not("[href^='" + origin + "']"));
+
+												headerBuff.push("内部リンクは「ルートパス」で入力されているか");
+
+												if ( $(html).find("a").not("[target='_blank']").not("[href^='/']").length == 0 ) {
+													tmp.push("○");
+												}
+												else {
+													// TODO: 戻り値が複数項目の場合に対応したい
+													tmp.push("✕\n" + "リンクラベル" + $(html).find("a[href^='htt']").not("[target='_blank']").not("[href^='" + origin + "']").text() );
 												}
 											}
 

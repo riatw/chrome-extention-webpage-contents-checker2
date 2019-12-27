@@ -54,36 +54,41 @@ h1 {
 	color: #fff;
 }
 .app-containar {
-	display: flex;
+	/*display: flex;*/
 }
-.app-containar > div {
-	width: 50%;
+.app-containar .containar-col {
+	height: 48vh;
 	padding: 25px 40px;
 	box-sizing: border-box;
-	border-right: 1px solid #ccc;
+	border-top: 1px solid #ccc;
+	overflow: auto;
 }
-.app-containar > div input[type=text],
-.app-containar > div textarea {
+.app-containar .containar-col:first-child {
+	border-top: 0;
+}
+.app-containar .containar-col input[type=text],
+.app-containar .containar-col textarea {
 	width: 100%;
 }
-.app-containar > div h2 {
+.app-containar .containar-col h2 {
 	margin-top: 30px;
 }
-.app-containar > div h2:first-child {
+.app-containar .containar-col h2:first-child {
 	margin-top: 0;
 }
 
-.app-containar > div table {
+.app-containar .containar-col table {
 	table-layout:fixed;
 	border: 1px solid #ccc;
 	border-collapse: collapse;
+	white-space: nowrap;
 }
-.app-containar > div table th,
-.app-containar > div table td {
+.app-containar .containar-col table th,
+.app-containar .containar-col table td {
 	padding: 10px;
 	border: 1px solid #ccc;
 	word-break: break-all;
 }
-.app-containar > div table thead th {
+.app-containar .containar-col table thead th {
 	background: #eee;
 }

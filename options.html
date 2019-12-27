@@ -10,40 +10,49 @@
 		<h1>WebPage Content Checker 2</h1>
 
 		<div class="app-containar">
-			<div id="containar-col">
+			<div class="containar-col">
 				<h2>URLリスト（改行区切り、リダイレクトチェックの場合はタブ区切り）</h2>
 				<textarea id="target" rows="20" v-model="urls"></textarea>
 
 				<h2>テスト項目設定</h2>
 
-				<h3><input type="checkbox" v-model="testcase.case1.active">テスト1: 以下のURL（NG URL）が含まれていないか</h3>
+				<h3><input type="checkbox" v-model="testcase.case1.active">1: 以下のURL（NG URL）が含まれていないか</h3>
 				<input type="text" v-model="testcase.case1.ngurl" value="https://example.jp/">
 
-				<h3><input type="checkbox" v-model="testcase.case2.active">テスト2: 以下の文字（NG文字）が含まれていないか</h3>
+				<h3><input type="checkbox" v-model="testcase.case2.active">2: 以下の文字（NG文字）が含まれていないか</h3>
 				<h4>NG文字（正規表現形式で入力）</h4>
 				<textarea type="text" v-model="testcase.case2.ngchar">①|②|③|④|⑤|⑥|⑦|⑧|⑨|⑩|⑪|⑫|⑬|⑭|⑮|⑯|⑰|⑱|⑲|⑳|Ⅰ|Ⅱ|Ⅲ|Ⅳ|Ⅴ|Ⅵ|Ⅶ|Ⅷ|Ⅸ|Ⅹ|㍉|㌔|㌢|㍍|㌘|㌧|㌃|㌶|㍑|㍗|㌍|㌦|㌣|㌫|㍊|㌻|㎜|㎝|㎞|㎎|㎏|㏄|㎡|㍻|〝|〟|№|㏍|℡|㊤|㊥|㊦|㊧|㊨|㈱|㈲|㈹|㍾|㍽|㍼</textarea>
 				<h4>セーフ文字（正規表現形式で入力）</h4>
 				<textarea v-model="testcase.case1.safechar"></textarea>
 
-				<h3><input type="checkbox" v-model="testcase.case3.active">テスト3: リダイレクトチェック</h3>
+				<h3><input type="checkbox" v-model="testcase.case3.active">3: リダイレクトチェック</h3>
 				<p>設定項目なし</p>
 
-				<h3><input type="checkbox" v-model="testcase.case4.active">テスト4: MixedContentチェック</h3>
+				<h3><input type="checkbox" v-model="testcase.case4.active">4: MixedContentチェック</h3>
 				<p>設定項目なし</p>
 
-				<h3><input type="checkbox" v-model="testcase.case5.active">テスト5: 見出しの順番は正しいか？</h3>
+				<h3><input type="checkbox" v-model="testcase.case5.active">5: 見出しの順番は正しいか？</h3>
 				<p>設定項目なし</p>
 
-				<h3><input type="checkbox" v-model="testcase.case6.active">テスト6: 見出しにカッコが含まれていないか？</h3>
+				<h3><input type="checkbox" v-model="testcase.case6.active">6: 見出しにカッコが含まれていないか？</h3>
 				<p>設定項目なし</p>
 
-				<h3><input type="checkbox" v-model="testcase.case7.active">テスト7: 箇条書きは「リスト」になっているか？</h3>
+				<h3><input type="checkbox" v-model="testcase.case7.active">7: 箇条書きは「リスト」になっているか？</h3>
 				<p>設定項目なし</p>
 
-				<h3><input type="checkbox" v-model="testcase.case8.active">テスト8: テーブル幅・セル幅をpx（ピクセル）固定していないか？</h3>
+				<h3><input type="checkbox" v-model="testcase.case8.active">8: テーブル幅・セル幅をpx（ピクセル）固定していないか？</h3>
 				<p>設定項目なし</p>
 
-				<h3><input type="checkbox" v-model="testcase.case9.active">テスト9: Google Analyticsがインストールされているか？</h3>
+				<h3><input type="checkbox" v-model="testcase.case9.active">9: Google Analyticsがインストールされているか？</h3>
+				<p>設定項目なし</p>
+
+				<h3><input type="checkbox" v-model="testcase.case10.active">10: Google Tag Managerがインストールされているか？</h3>
+				<p>設定項目なし</p>
+
+				<h3><input type="checkbox" v-model="testcase.case11.active">11: 外部リンクはすべて_blank指定があるか</h3>
+				<p>設定項目なし</p>
+
+				<h3><input type="checkbox" v-model="testcase.case11.active">12: 内部リンクは「ルートパス」で入力されているか</h3>
 				<p>設定項目なし</p>
 
 				<div>
