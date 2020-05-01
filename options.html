@@ -43,20 +43,22 @@
 				<h3><input type="checkbox" v-model="testcase.case8.active">8: テーブル幅・セル幅をpx（ピクセル）固定していないか？</h3>
 				<p>設定項目なし</p>
 
-				<h3><input type="checkbox" v-model="testcase.case9.active">9: Google Analyticsがインストールされているか？</h3>
-				<p>設定項目なし</p>
-
-				<h3><input type="checkbox" v-model="testcase.case10.active">10: Google Tag Managerがインストールされているか？</h3>
-				<p>設定項目なし</p>
+				<h3><input type="checkbox" v-model="testcase.case9.active">9: Google Analytics（Google Tag Manager）がインストールされているか？</h3>
+				<h4>UA/GTMの値</h4>
+				<input type="text" placeholder="GA-XXXXXX or GTM-XXXXX" v-model="testcase.case9.code"></textarea>
 
 				<h3><input type="checkbox" v-model="testcase.case11.active">11: 外部リンクはすべて_blank指定があるか</h3>
 				<p>設定項目なし</p>
 
-				<h3><input type="checkbox" v-model="testcase.case11.active">12: 内部リンクは「ルートパス」で入力されているか</h3>
+				<h3><input type="checkbox" v-model="testcase.case12.active">12: 内部リンクは「ルートパス」で入力されているか</h3>
 				<p>設定項目なし</p>
 
+				<h3><input type="checkbox" v-model="testcase.case13.active">13: URL1とURL2の内容が一致しているか</h3>
+				<h4>除外文字</h4>
+				<textarea v-model="testcase.case13.excludechar"></textarea>
+
 				<div>
-					<button v-on:click="open()">Open Tab</button>
+					<button v-on:click="open()">実行</button>
 				</div>
 			</div>
 
@@ -66,13 +68,13 @@
 				<table border="1">
 					<thead>
 						<tr>
-							<th v-for="header in buff.thead">{{header}}</th>
+							<th v-for="header in buff.thead" v-bind:key="index">{{header}}</th>
 						</tr>
 					</thead>
 					<tbody>
 						<tr v-for="content in buff.tbody">
-							<td v-for="data in content">
-								{{data}}
+							<td v-for="data in content" v-bind:key="data.key">
+								{{data.content}}
 							</td>
 						</tr>
 					</tbody>
