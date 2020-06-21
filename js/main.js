@@ -122,47 +122,47 @@ $(document).ready(function(){
 			},
 			testcase: {
 				case1: {
-					active: true,
+					active: false,
 					ngurl: "",
 				},
 				case2: {
-					active: true,
+					active: false,
 					ngchar: "",
 					safechar: "",
 				},
 				case3: {
-					active: true,
+					active: false,
 				},
 				case4: {
-					active: true,
+					active: false,
 				},
 				case5: {
-					active: true,
+					active: false,
 				},
 				case6: {
-					active: true,
+					active: false,
 				},
 				case7: {
-					active: true,
+					active: false,
 				},
 				case8: {
-					active: true,
+					active: false,
 				},
 				case9: {
-					active: true,
+					active: false,
 					code: "",
 				},
 				// case10: {
-				// 	active: true,
+				// 	active: false,
 				// },
 				case11: {
-					active: true,
+					active: false,
 				},
 				case12: {
-					active: true,
+					active: false,
 				},
 				case13: {
-					active: true,
+					active: false,
 					excludechar: "",
 				}
 			}
@@ -474,6 +474,57 @@ $(document).ready(function(){
 					hoge( urls[i].split(" ")[0], urls[i].split(" ")[1] );
 				}
 
+			},
+			download: function() {
+				var $app = this;
+				var thead = $app.buff.thead;
+				var tbody = JSON.parse(JSON.stringify($app.buff.tbody));
+				var csvArr = [];
+
+				function arrToCSV(arr) {
+					return arr
+					.map(row => row.map(str => '"' + (str ? str.replace(/"/g, '""') : '') + '"')
+					)
+					.map(row => row.join(','))
+					.join('\n');
+				}
+				function download(data, name) {
+					const anchor = document.createElement('a');
+
+					if (window.URL && anchor.download !== undefined) {
+					// utf8
+					const bom = '\uFEFF';
+					const blob = new Blob([bom, data], { type: 'text/csv' });
+					anchor.download = name;
+
+					// window.URL.createObjectURLを利用
+					// https://developer.mozilla.org/ja/docs/Web/API/URL/createObjectURL
+					anchor.href = window.URL.createObjectURL(blob);
+
+					// これでも可
+					// anchor.href = 'data:text/csv;charset=utf-8,' + encodeURIComponent(bom + data);
+
+					// firefoxでは一度addしないと動かない
+					document.body.appendChild(anchor);
+					anchor.click();
+					anchor.parentNode.removeChild(anchor);
+					}
+				}
+
+				csvArr.push(thead);
+
+				for ( var i = 0; i < tbody.length; i++ ) {
+					var arr = [];
+
+					for ( var j = 0; j < tbody[i].length; j++ ) {
+						arr.push( tbody[i][j]["content"] );
+					}
+
+					csvArr.push(arr);
+				}
+
+				const data = arrToCSV(csvArr);
+				download(data, "list.csv");
 			}
 		}
 	});
